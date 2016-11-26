@@ -70,7 +70,6 @@ func (ts *TidbTestSuite) TearDownSuite(c *C) {
 
 func (ts *TidbTestSuite) TestRegression(c *C) {
 	if regression {
-		c.Parallel()
 		runTestRegression(c, "Regression")
 	}
 }
@@ -80,12 +79,10 @@ func (ts *TidbTestSuite) TestUint64(c *C) {
 }
 
 func (ts *TidbTestSuite) TestSpecialType(c *C) {
-	c.Parallel()
 	runTestSpecialType(c)
 }
 
 func (ts *TidbTestSuite) TestPreparedString(c *C) {
-	c.Parallel()
 	runTestPreparedString(c)
 }
 
@@ -110,7 +107,6 @@ func (ts *TidbTestSuite) TestIssues(c *C) {
 }
 
 func (ts *TidbTestSuite) TestResultFieldTableIsNull(c *C) {
-	c.Parallel()
 	runTestResultFieldTableIsNull(c)
 }
 
@@ -123,12 +119,10 @@ func (ts *TidbTestSuite) TestMultiPacket(c *C) {
 }
 
 func (ts *TidbTestSuite) TestMultiStatements(c *C) {
-	c.Parallel()
 	runTestMultiStatements(c)
 }
 
 func (ts *TidbTestSuite) TestSocket(c *C) {
-	c.Parallel()
 	cfg := &Config{
 		LogLevel:   "debug",
 		StatusAddr: ":10091",

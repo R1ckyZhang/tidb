@@ -144,17 +144,14 @@ var (
 
 // If the schema is invalid, we need to rollback the current transaction.
 func (s *session) checkSchemaValidOrRollback() error {
-	var ts uint64
-	if s.txn != nil {
-		ts = s.txn.StartTS()
-	} else {
+	if s.txn == nil {
 		s.schemaVerInCurrTxn = 0
 	}
 
 	var err error
 	var currSchemaVer int64
 	for i := 0; i < checkSchemaValidityRetryTimes; i++ {
-		currSchemaVer, err = sessionctx.GetDomain(s).SchemaValidity.Check(ts, s.schemaVerInCurrTxn)
+		currSchemaVer, err = sessionctx.GetDomain(s).SchemaValidity.Check(s.schemaVerInCurrTxn)
 		if err == nil {
 			if s.txn == nil {
 				s.schemaVerInCurrTxn = currSchemaVer
@@ -163,6 +160,7 @@ func (s *session) checkSchemaValidOrRollback() error {
 		}
 		log.Infof("schema version original %d, current %d, sleep time %v",
 			s.schemaVerInCurrTxn, currSchemaVer, checkSchemaValiditySleepTime)
+		// If the current transaction isn't nil and the schema version is changed, returns an error.
 		if currSchemaVer != s.schemaVerInCurrTxn && s.schemaVerInCurrTxn != 0 {
 			break
 		}

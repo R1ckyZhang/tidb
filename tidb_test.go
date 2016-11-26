@@ -341,7 +341,7 @@ func (s *testMainSuite) TestSchemaValidity(c *C) {
 	ver, err := store.CurrentVersion()
 	c.Assert(err, IsNil)
 	c.Assert(ver, NotNil)
-	sessionctx.GetDomain(ctx).SchemaValidity.SetExpireInfo(false, ver.Ver)
+	sessionctx.GetDomain(ctx).SchemaValidity.SetExpire(false)
 	sessionctx.GetDomain(ctx).SchemaValidity.MockReloadFailed.SetValue(false)
 	mustExecSQL(c, se, "insert t values (1);")
 	// Make sure insert to table t2 transaction executes.
