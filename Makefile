@@ -1,4 +1,4 @@
-### Makefile for tidb
+### Makefile for tidb1
 
 # Ensure GOPATH is set before running build process.
 ifeq "$(GOPATH)" ""
